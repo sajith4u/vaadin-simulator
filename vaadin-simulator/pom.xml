@@ -8,18 +8,186 @@
     <artifactId>vaadin-simulator</artifactId>
     <version>1.0.1</version>
 
+    <properties>
+        <productionMode>false</productionMode>
+        <vaadin.version>7.5.5</vaadin.version>
+        <vaadin.plugin.version>${vaadin.version}</vaadin.plugin.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>com.vaadin</groupId>
-            <artifactId>vaadin</artifactId>
-            <version>7.0.0.alpha3</version>
+            <artifactId>vaadin-server</artifactId>
+            <version>${vaadin.version}</version>
         </dependency>
         <dependency>
             <groupId>com.vaadin</groupId>
-            <artifactId>vaadin-server</artifactId>
-            <version>7.5.8</version>
+            <artifactId>vaadin-themes</artifactId>
+            <version>${vaadin.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-client-compiler</artifactId>
+            <version>${vaadin.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.vaadin.addon</groupId>
+            <artifactId>vaadin-charts</artifactId>
+            <version>2.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.vaadin.addons</groupId>
+            <artifactId>googleanalyticstracker</artifactId>
+            <version>2.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-testbench</artifactId>
+            <version>4.0.3</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.peimari</groupId>
+            <artifactId>maddon</artifactId>
+            <version>1.15</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-jdk14</artifactId>
+            <version>1.6.4</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>18.0</version>
         </dependency>
     </dependencies>
 
+    <repositories>
+        <repository>
+            <id>vaadin-addons</id>
+            <url>http://maven.vaadin.com/vaadin-addons</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>sonatype vaadin</id>
+            <url>https://oss.sonatype.org/content/repositories/vaadin/</url>
+        </repository>
+    </repositories>
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>2.5</version>
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <directory>src/main/webapp/VAADIN/widgetsets</directory>
+                        </fileset>
+                        <fileset>
+                            <directory>src/main/webapp/VAADIN/gwt-unitCache</directory>
+                        </fileset>
+                    </filesets>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.vaadin</groupId>
+                <artifactId>vaadin-maven-plugin</artifactId>
+                <version>${vaadin.plugin.version}</version>
+                <configuration>
+                    <extraJvmArgs>-Xmx512M -Xss1024k</extraJvmArgs>
+                    <webappDirectory>${basedir}/src/main/webapp/VAADIN/widgetsets</webappDirectory>
+                    <hostedWebapp>${basedir}/src/main/webapp/VAADIN/widgetsets</hostedWebapp>
+                    <noServer>true</noServer>
+                    <draftCompile>false</draftCompile>
+                    <style>OBF</style>
+                    <compileReport>true</compileReport>
+                    <runTarget>http://localhost:8080/</runTarget>
+                </configuration>
+                <executions>
+                    <execution>
+                        <configuration>
+                        </configuration>
+                        <goals>
+                            <goal>resources</goal>
+                            <goal>update-theme</goal>
+                            <goal>update-widgetset</goal>
+                            <goal>compile-theme</goal>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <webResources>
+                        <webResource>
+                            <directory>${basedir}/src/main/webapp/WEB-INF</directory>
+                            <includes>
+                                <include>*.xml</include>
+                            </includes>
+                            <targetPath>WEB-INF</targetPath>
+                            <filtering>true</filtering>
+                        </webResource>
+                    </webResources>
+                </configuration>
+            </plugin>
+        </plugins>
+
+        <pluginManagement>
+            <plugins>
+                <!--This plugin's configuration is used to store Eclipse m2e settings
+                    only. It has no influence on the Maven build itself. -->
+                <plugin>
+                    <groupId>org.eclipse.m2e</groupId>
+                    <artifactId>lifecycle-mapping</artifactId>
+                    <version>1.0.0</version>
+                    <configuration>
+                        <lifecycleMappingMetadata>
+                            <pluginExecutions>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>com.vaadin</groupId>
+                                        <artifactId>
+                                            vaadin-maven-plugin
+                                        </artifactId>
+                                        <versionRange>
+                                            [7.1.0,)
+                                        </versionRange>
+                                        <goals>
+                                            <goal>resources</goal>
+                                            <goal>
+                                                update-widgetset
+                                            </goal>
+                                            <goal>compile-theme</goal>
+                                            <goal>update-theme</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <ignore></ignore>
+                                    </action>
+                                </pluginExecution>
+                            </pluginExecutions>
+                        </lifecycleMappingMetadata>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 
 </project>
