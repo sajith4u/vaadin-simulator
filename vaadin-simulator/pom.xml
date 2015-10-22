@@ -8,5 +8,18 @@
     <artifactId>vaadin-simulator</artifactId>
     <version>1.0.1</version>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin</artifactId>
+            <version>7.0.0.alpha3</version>
+        </dependency>
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-server</artifactId>
+            <version>7.5.8</version>
+        </dependency>
+    </dependencies>
+
 
 </project>
