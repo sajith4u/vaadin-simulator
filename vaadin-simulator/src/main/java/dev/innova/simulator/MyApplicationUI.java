@@ -51,10 +51,11 @@ public class MyApplicationUI extends UI {
 
 
     /**
-     *  return Server Tab
+     * return Server Tab
+     *
      * @return
      */
-    private VerticalLayout getServerTab(){
+    private VerticalLayout getServerTab() {
         VerticalLayout serverTab = new VerticalLayout();
 
         Panel panel = new Panel("Notification Send");
@@ -68,6 +69,7 @@ public class MyApplicationUI extends UI {
         content.addComponent(textField);
         final TextArea textArea = new TextArea("Notification");
         textArea.setWidth("300px");
+        textArea.setHeight("200px");
         content.addComponent(textArea);
         HorizontalLayout buttonsList = new HorizontalLayout();
         Button restButton = new Button("Reset");
@@ -75,9 +77,10 @@ public class MyApplicationUI extends UI {
                 new Button.ClickListener() {
                     public void buttonClick(Button.ClickEvent event) {
 
-                        if (textArea.getValue() != null || textField.getValue() != null || !textField.getValue().equals("") || !textArea.getValue().equals("")) {
-
-
+                        if (!textField.getValue().equals("") || !textArea.getValue().equals("")) {
+                            Notification.show("Notification Send Success",
+                                    "successfully send notification to phone",
+                                    Notification.Type.HUMANIZED_MESSAGE);
                         } else {
                             Notification.show("Notification Send Failed",
                                     "Please Enter Title And Message",
@@ -98,6 +101,7 @@ public class MyApplicationUI extends UI {
 
     /**
      * Return Android Simulator Tab
+     *
      * @return
      */
     private VerticalLayout androidSimulatorTab() {
