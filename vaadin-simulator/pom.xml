@@ -60,6 +60,13 @@
             <artifactId>usb4java-javax</artifactId>
             <version>1.2.0</version>
         </dependency>
+        <dependency>
+            <groupId>gcm-server</groupId>
+            <artifactId>com.google.android.gcm.server</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/resources/gcm-server.jar</systemPath>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
