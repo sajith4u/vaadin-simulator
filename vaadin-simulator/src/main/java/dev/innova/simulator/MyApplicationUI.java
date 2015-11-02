@@ -8,6 +8,8 @@ import com.vaadin.server.*;
 import com.vaadin.shared.ui.AlignmentInfo;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.Runo;
+import dev.innova.simulator.storage.Property;
+import dev.innova.simulator.storage.PropertyHolder;
 
 import javax.servlet.annotation.WebServlet;
 
@@ -15,8 +17,11 @@ import javax.servlet.annotation.WebServlet;
 @Theme("runo")
 public class MyApplicationUI extends UI {
 
+    PropertyHolder propertyHolder;
+
     @Override
     protected void init(VaadinRequest vaadinRequest) {
+        propertyHolder = new PropertyHolder();
         VerticalLayout view = new VerticalLayout();
 
         TabSheet tabsheet = new TabSheet();
@@ -161,6 +166,10 @@ public class MyApplicationUI extends UI {
                             failedImage.setVisible(false);
                             settings.setValue("Settings Save Successfully");
                             notificationList.setVisible(true);
+                            Property property = new Property();
+                            property.setApiKey(applicationId.getValue());
+                            property.setRegistrationId(applicationPassword.getValue());
+                            propertyHolder.insertSettings(property);
                         } else {
                             image.setVisible(false);
                             failedImage.setVisible(true);
